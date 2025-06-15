@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  overscroll-behavior-y: none;
+}
+
 .app {
   width: 100dvw;
   height: 100dvh;
@@ -11,4 +15,5 @@
   overflow: hidden;
 
   background-color: #ffffff;
+  overscroll-behavior-y: none;
 }
