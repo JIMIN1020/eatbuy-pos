@@ -25,7 +25,7 @@ function ItemList({ title, items, onItemClick }: Props) {
           <motion.button
             key={item.id}
             whileTap={{ scale: 0.95 }}
-            className="w-[150px] h-[150px] p-[20px] shadow-sm bg-white rounded-[12px] border border-gray-200 text-black flex flex-col items-start justify-between gap-[12px]"
+            className="w-[160px] h-[160px] p-[20px] shadow-sm bg-white rounded-[12px] border border-gray-200 text-black flex flex-col items-start justify-between gap-[12px]"
             onClick={() => onItemClick(item)}
           >
             <span className="text-xl">{item.option}</span>

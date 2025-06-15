@@ -1,3 +1,4 @@
+import { saveSalesData } from '../salesService';
 import OrderItem from './OrderItem';
 import { motion } from 'framer-motion';
 
@@ -29,37 +30,16 @@ function SideBar({ orderItems, setOrderItems }: Props) {
     setOrderItems([]);
   };
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     if (orderItems.length === 0) return;
 
-    const now = new Date();
-    const offset = now.getTime() + 9 * 60 * 60 * 1000;
-    const kstDate = new Date(offset);
-    const today = kstDate.toISOString().slice(0, 10);
-
-    const existingSales = JSON.parse(localStorage.getItem('sales') || '{}');
-
-    if (!existingSales[today]) {
-      existingSales[today] = {};
+    try {
+      await saveSalesData(orderItems);
+      setOrderItems([]);
+    } catch (error) {
+      console.error('결제 처리 중 오류 발생:', error);
+      alert('결제 처리 중 오류가 발생했습니다.');
     }
-
-    orderItems.forEach((item) => {
-      const key = item.id;
-      if (!existingSales[today][key]) {
-        existingSales[today][key] = {
-          name: item.name,
-          option: item.option,
-          quantity: 0,
-          amount: 0,
-        };
-      }
-      existingSales[today][key].quantity += item.quantity;
-      existingSales[today][key].amount += item.price * item.quantity;
-    });
-
-    localStorage.setItem('sales', JSON.stringify(existingSales));
-
-    setOrderItems([]);
   };
 
   const totalAmount = orderItems.reduce(

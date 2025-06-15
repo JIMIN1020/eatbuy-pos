@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
-import { DatePicker, Table, Typography, Card } from 'antd';
+import { DatePicker, Table, Typography, Card, Spin, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
+import { getSalesByDateRange } from '../salesService';
 
 interface SalesItem {
   key: string;
@@ -15,11 +16,19 @@ interface SalesItem {
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
 
+const getToday = () => {
+  const now = new Date();
+  const offset = now.getTime() + 9 * 60 * 60 * 1000;
+  const kstDate = new Date(offset);
+  return kstDate.toISOString().slice(0, 10);
+};
+
 const DashboardPage = () => {
-  const [startDate, setStartDate] = useState('2025-06-16');
-  const [endDate, setEndDate] = useState('2025-06-25');
+  const [startDate, setStartDate] = useState(getToday());
+  const [endDate, setEndDate] = useState(getToday());
   const [rows, setRows] = useState<SalesItem[]>([]);
   const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const columns: ColumnsType<SalesItem> = [
     {
@@ -58,38 +67,45 @@ const DashboardPage = () => {
   ];
 
   useEffect(() => {
-    const allData = JSON.parse(localStorage.getItem('sales') || '{}');
-    const filteredDates = Object.keys(allData)
-      .filter((date) => date >= startDate && date <= endDate)
-      .sort();
+    const fetchSalesData = async () => {
+      setLoading(true);
+      try {
+        const allData = await getSalesByDateRange(startDate, endDate);
+        const filteredDates = Object.keys(allData).sort();
 
-    console.log(filteredDates);
+        // 상품별 집계
+        const itemMap: Record<
+          string,
+          { name: string; option: string; quantity: number; amount: number }
+        > = {};
+        filteredDates.forEach((date) => {
+          const dayData = allData[date];
+          Object.values(dayData).forEach((item: any) => {
+            const key = `${item.name}_${item.option}`;
+            if (!itemMap[key]) {
+              itemMap[key] = { ...item };
+            } else {
+              itemMap[key].quantity += item.quantity;
+              itemMap[key].amount += item.amount;
+            }
+          });
+        });
 
-    // 상품별 집계
-    const itemMap: Record<
-      string,
-      { name: string; option: string; quantity: number; amount: number }
-    > = {};
-    filteredDates.forEach((date) => {
-      const dayData = allData[date];
-      Object.values(dayData).forEach((item: any) => {
-        const key = `${item.name}_${item.option}`;
-        if (!itemMap[key]) {
-          itemMap[key] = { ...item };
-        } else {
-          itemMap[key].quantity += item.quantity;
-          itemMap[key].amount += item.amount;
-        }
-      });
-    });
+        const result = Object.values(itemMap).map((item, index) => ({
+          ...item,
+          key: String(index),
+        }));
 
-    const result = Object.values(itemMap).map((item, index) => ({
-      ...item,
-      key: String(index),
-    }));
-
-    setRows(result);
-    setTotal(result.reduce((sum, item: any) => sum + item.amount, 0));
+        setRows(result);
+        setTotal(result.reduce((sum, item: any) => sum + item.amount, 0));
+      } catch (error) {
+        console.error('데이터 조회 중 오류 발생:', error);
+        message.error('데이터 조회 중 오류가 발생했습니다.');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSalesData();
   }, [startDate, endDate]);
 
   const handleDateRangeChange = (dates: any) => {
@@ -100,7 +116,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="w-full p-[40px] bg-gray-50 h-full flex-1">
+    <div className="w-full p-[40px] bg-gray-50 h-full flex-1 overflow-y-auto">
       <Title level={2} style={{ marginBottom: 24 }}>
         매출 통계
       </Title>
@@ -118,31 +134,37 @@ const DashboardPage = () => {
         </div>
       </Card>
 
-      <Table
-        columns={columns}
-        dataSource={rows}
-        pagination={false}
-        size="large"
-        bordered
-        style={{ marginBottom: 24 }}
-        summary={() => (
-          <Table.Summary.Row>
-            <Table.Summary.Cell index={0} colSpan={4} align="right">
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  alignItems: 'center',
-                }}
-              >
-                <span style={{ fontWeight: 'bold', fontSize: 18 }}>
-                  {total.toLocaleString()}원
-                </span>
-              </div>
-            </Table.Summary.Cell>
-          </Table.Summary.Row>
-        )}
-      />
+      {loading ? (
+        <div className="flex justify-center items-center py-12">
+          <Spin size="large" />
+        </div>
+      ) : (
+        <Table
+          columns={columns}
+          dataSource={rows}
+          pagination={false}
+          size="large"
+          bordered
+          style={{ marginBottom: 24 }}
+          summary={() => (
+            <Table.Summary.Row>
+              <Table.Summary.Cell index={0} colSpan={4} align="right">
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                  }}
+                >
+                  <span style={{ fontWeight: 'bold', fontSize: 18 }}>
+                    {total.toLocaleString()}원
+                  </span>
+                </div>
+              </Table.Summary.Cell>
+            </Table.Summary.Row>
+          )}
+        />
+      )}
     </div>
   );
 };

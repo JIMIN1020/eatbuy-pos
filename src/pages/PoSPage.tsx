@@ -34,12 +34,9 @@ function PoSPage() {
   };
 
   return (
-    <div
-      style={{ height: 'calc(100vh - 70px)' }}
-      className="w-full flex-1 grid grid-cols-10 bg-gray-50 overflow-hidden"
-    >
+    <div className="w-full flex-1 grid grid-cols-10 bg-gray-50 overflow-hidden h-full">
       <div className="flex flex-col w-full h-full p-[40px] flex-1 gap-[40px] col-span-7">
-        <div className="flex gap-3 p-4 bg-white rounded-lg shadow-sm justify-between">
+        <div className="flex gap-3 p-4 bg-white rounded-lg shadow-sm justify-between overflow-hidden">
           <div className="flex items-center gap-3">
             <div className="w-1 h-6 bg-punta-orange rounded-full"></div>
             <h3 className="text-2xl font-bold text-punta-orange">
