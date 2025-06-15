@@ -2,8 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+* {
   overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: none;
 }
 
 .app {
@@ -15,5 +16,4 @@ body {
   overflow: hidden;
 
   background-color: #ffffff;
-  overscroll-behavior-y: none;
 }
