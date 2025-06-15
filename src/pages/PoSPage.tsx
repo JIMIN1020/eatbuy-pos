@@ -34,17 +34,17 @@ function PoSPage() {
   };
 
   return (
-    <div className="w-full flex-1 grid grid-cols-10 bg-gray-50 overflow-hidden h-full">
-      <div className="flex flex-col w-full h-full p-[40px] flex-1 gap-[40px] col-span-7">
+    <div className="w-full flex-1 flex flex-col md:grid md:grid-cols-10 bg-gray-50 overflow-hidden h-full">
+      <div className="flex flex-col w-full h-full p-4 md:p-[40px] flex-1 gap-4 md:gap-[40px] md:col-span-7 overflow-y-auto">
         <div className="flex gap-3 p-4 bg-white rounded-lg shadow-sm justify-between overflow-hidden">
           <div className="flex items-center gap-3">
             <div className="w-1 h-6 bg-punta-orange rounded-full"></div>
-            <h3 className="text-2xl font-bold text-punta-orange">
+            <h3 className="text-xl md:text-2xl font-bold text-punta-orange">
               {new Date().toISOString().slice(0, 10)}
             </h3>
           </div>
           <div className="flex items-center gap-2 pl-4">
-            <span className="text-lg font-medium text-gray-700">
+            <span className="text-base md:text-lg font-medium text-gray-700">
               오늘도 화이팅!
             </span>
             <span className="text-xl">🧡</span>
