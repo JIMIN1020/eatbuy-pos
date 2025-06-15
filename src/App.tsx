@@ -2,7 +2,11 @@ import { RouterProvider } from 'react-router-dom';
 import router from './router/router';
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <div className="app">
+      <RouterProvider router={router} />
+    </div>
+  );
 }
 
 export default App;

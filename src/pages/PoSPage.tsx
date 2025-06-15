@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Header from '../components/Header';
 import ItemList from '../components/ItemList';
 import { ITEM_LIST_1, ITEM_LIST_2 } from '../price';
 import SideBar from '../components/SideBar';
@@ -35,40 +34,37 @@ function PoSPage() {
   };
 
   return (
-    <div className="app">
-      <Header />
-      <div
-        style={{ height: 'calc(100vh - 70px)' }}
-        className="w-full flex-1 grid grid-cols-10 bg-gray-50 overflow-hidden"
-      >
-        <div className="flex flex-col w-full h-full p-[40px] flex-1 gap-[40px] col-span-7">
-          <div className="flex gap-3 p-4 bg-white rounded-lg shadow-sm justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-1 h-6 bg-punta-orange rounded-full"></div>
-              <h3 className="text-2xl font-bold text-punta-orange">
-                {new Date().toISOString().slice(0, 10)}
-              </h3>
-            </div>
-            <div className="flex items-center gap-2 pl-4">
-              <span className="text-lg font-medium text-gray-700">
-                오늘도 화이팅!
-              </span>
-              <span className="text-xl">🍀</span>
-            </div>
+    <div
+      style={{ height: 'calc(100vh - 70px)' }}
+      className="w-full flex-1 grid grid-cols-10 bg-gray-50 overflow-hidden"
+    >
+      <div className="flex flex-col w-full h-full p-[40px] flex-1 gap-[40px] col-span-7">
+        <div className="flex gap-3 p-4 bg-white rounded-lg shadow-sm justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-1 h-6 bg-punta-orange rounded-full"></div>
+            <h3 className="text-2xl font-bold text-punta-orange">
+              {new Date().toISOString().slice(0, 10)}
+            </h3>
           </div>
-          <ItemList
-            title="홍시 찹쌀떡"
-            items={ITEM_LIST_1}
-            onItemClick={handleAddItem}
-          />
-          <ItemList
-            title="홍시 식혜"
-            items={ITEM_LIST_2}
-            onItemClick={handleAddItem}
-          />
+          <div className="flex items-center gap-2 pl-4">
+            <span className="text-lg font-medium text-gray-700">
+              오늘도 화이팅!
+            </span>
+            <span className="text-xl">🧡</span>
+          </div>
         </div>
-        <SideBar orderItems={orderItems} setOrderItems={setOrderItems} />
+        <ItemList
+          title="홍시 찹쌀떡"
+          items={ITEM_LIST_1}
+          onItemClick={handleAddItem}
+        />
+        <ItemList
+          title="홍시 식혜"
+          items={ITEM_LIST_2}
+          onItemClick={handleAddItem}
+        />
       </div>
+      <SideBar orderItems={orderItems} setOrderItems={setOrderItems} />
     </div>
   );
 }

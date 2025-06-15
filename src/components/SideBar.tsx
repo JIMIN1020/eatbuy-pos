@@ -32,7 +32,10 @@ function SideBar({ orderItems, setOrderItems }: Props) {
   const handlePayment = () => {
     if (orderItems.length === 0) return;
 
-    const today = new Date().toISOString().slice(0, 10);
+    const now = new Date();
+    const offset = now.getTime() + 9 * 60 * 60 * 1000;
+    const kstDate = new Date(offset);
+    const today = kstDate.toISOString().slice(0, 10);
 
     const existingSales = JSON.parse(localStorage.getItem('sales') || '{}');
 
