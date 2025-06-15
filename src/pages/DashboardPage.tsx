@@ -4,6 +4,7 @@ import { DatePicker, Table, Typography, Card, Spin, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
 import { getSalesByDateRange } from '../salesService';
+import { getToday } from '../date';
 
 interface SalesItem {
   key: string;
@@ -15,13 +16,6 @@ interface SalesItem {
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
-
-const getToday = () => {
-  const now = new Date();
-  const offset = now.getTime() + 9 * 60 * 60 * 1000;
-  const kstDate = new Date(offset);
-  return kstDate.toISOString().slice(0, 10);
-};
 
 const DashboardPage = () => {
   const [startDate, setStartDate] = useState(getToday());

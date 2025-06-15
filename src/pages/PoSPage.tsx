@@ -2,6 +2,7 @@ import { useState } from 'react';
 import ItemList from '../components/ItemList';
 import { ITEM_LIST_1, ITEM_LIST_2 } from '../price';
 import SideBar from '../components/SideBar';
+import { getToday } from '../date';
 
 interface OrderItem {
   id: number;
@@ -40,7 +41,7 @@ function PoSPage() {
           <div className="flex items-center gap-3">
             <div className="w-1 h-6 bg-punta-orange rounded-full"></div>
             <h3 className="text-xl md:text-2xl font-bold text-punta-orange">
-              {new Date().toISOString().slice(0, 10)}
+              {getToday()}
             </h3>
           </div>
           <div className="flex items-center gap-2 pl-4">

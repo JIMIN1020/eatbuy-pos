@@ -9,6 +9,7 @@ import {
   getDocs,
 } from 'firebase/firestore';
 import { db } from './config';
+import { getToday } from './date';
 
 interface SalesItem {
   name: string;
@@ -24,13 +25,6 @@ export interface OrderItem {
   price: number;
   quantity: number;
 }
-
-export const getToday = () => {
-  const now = new Date();
-  const offset = now.getTime() + 9 * 60 * 60 * 1000;
-  const kstDate = new Date(offset);
-  return kstDate.toISOString().slice(0, 10);
-};
 
 export const saveSalesData = async (orderItems: OrderItem[]): Promise<void> => {
   if (orderItems.length === 0) return;
