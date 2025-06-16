@@ -77,7 +77,7 @@ const TransactionPage = () => {
         <Button
           type="primary"
           danger
-          onClick={() => handleCancelTransaction(record.id)}
+          onClick={() => handleCancelTransaction(record.id, record.amount)}
         >
           결제 취소
         </Button>
@@ -85,11 +85,15 @@ const TransactionPage = () => {
     },
   ];
 
-  const handleCancelTransaction = async (transactionId: string) => {
+  const handleCancelTransaction = async (
+    transactionId: string,
+    amount: number
+  ) => {
     try {
       await deleteTransaction(transactionId);
 
       setRows((prev) => prev.filter((row) => row.id !== transactionId));
+      setTotal(total - amount);
       message.success('결제가 취소되었습니다.');
     } catch (error) {
       console.error('결제 취소 중 오류 발생:', error);
