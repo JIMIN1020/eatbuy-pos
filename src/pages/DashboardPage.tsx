@@ -67,13 +67,12 @@ const DashboardPage = () => {
         const allData = await getSalesByDateRange(startDate, endDate);
         const filteredDates = Object.keys(allData).sort();
 
-        // 상품별 집계
         const itemMap: Record<
           string,
           { name: string; option: string; quantity: number; amount: number }
         > = {};
-        filteredDates.forEach((date) => {
-          const dayData = allData[date];
+        filteredDates.forEach((date: string) => {
+          const dayData = allData[date as keyof typeof allData];
           Object.values(dayData).forEach((item: any) => {
             const key = `${item.name}_${item.option}`;
             if (!itemMap[key]) {

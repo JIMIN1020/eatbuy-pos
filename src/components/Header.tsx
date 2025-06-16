@@ -45,6 +45,21 @@ function Header() {
               <div className="absolute -bottom-[10px] left-0 w-full h-[2.5px] bg-punta-orange transform -translate-y-2" />
             )}
           </div>
+          <div className="relative">
+            <Link
+              to="/transactions"
+              className={`text-lg font-medium transition-colors duration-200 ${
+                location.pathname === '/transactions'
+                  ? 'text-punta-orange'
+                  : 'text-gray-600 hover:text-punta-orange'
+              }`}
+            >
+              거래내역
+            </Link>
+            {location.pathname === '/transactions' && (
+              <div className="absolute -bottom-[10px] left-0 w-full h-[2.5px] bg-punta-orange transform -translate-y-2" />
+            )}
+          </div>
         </div>
       </div>
     </div>
