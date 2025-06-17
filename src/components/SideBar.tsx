@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import { saveSalesData } from '../salesService';
 import OrderItem from './OrderItem';
 import { motion } from 'framer-motion';
@@ -36,9 +37,9 @@ function SideBar({ orderItems, setOrderItems }: Props) {
     try {
       await saveSalesData(orderItems);
       setOrderItems([]);
-    } catch (error) {
-      console.error('결제 처리 중 오류 발생:', error);
-      alert('결제 처리 중 오류가 발생했습니다.');
+      message.success('결제 완료!');
+    } catch {
+      message.error('결제 처리 중 오류 발생');
     }
   };
 

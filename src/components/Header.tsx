@@ -12,13 +12,15 @@ function Header() {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-3">
           <img src={puntaLogo} alt="punta-logo" className="w-auto h-7" />
-          <h1 className="text-2xl font-bold text-punta-orange">식후경 POS</h1>
+          <h1 className="text-lg md:text-2xl font-bold text-punta-orange">
+            식후경 POS
+          </h1>
         </div>
-        <div className="flex items-center space-x-8">
+        <div className="flex items-center space-x-4 md:space-x-8">
           <div className="relative">
             <Link
               to="/"
-              className={`text-lg font-medium transition-colors duration-200 ${
+              className={`text-md md:text-lg font-medium transition-colors duration-200 ${
                 location.pathname === '/'
                   ? 'text-punta-orange'
                   : 'text-gray-600 hover:text-punta-orange'
@@ -33,7 +35,7 @@ function Header() {
           <div className="relative">
             <Link
               to="/dashboard"
-              className={`text-lg font-medium transition-colors duration-200 ${
+              className={`text-md md:text-lg font-medium transition-colors duration-200 ${
                 location.pathname === '/dashboard'
                   ? 'text-punta-orange'
                   : 'text-gray-600 hover:text-punta-orange'
@@ -48,7 +50,7 @@ function Header() {
           <div className="relative">
             <Link
               to="/transactions"
-              className={`text-lg font-medium transition-colors duration-200 ${
+              className={`text-md md:text-lg font-medium transition-colors duration-200 ${
                 location.pathname === '/transactions'
                   ? 'text-punta-orange'
                   : 'text-gray-600 hover:text-punta-orange'
