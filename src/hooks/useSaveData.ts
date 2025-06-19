@@ -1,8 +1,11 @@
 import { useEffect } from 'react';
 import { ensureSalesDataExists } from '../firebase/salesService';
+import { useLocation } from 'react-router';
 
 // sales 데이터를 저장하는 훅
 export const useSaveData = () => {
+  const pathname = useLocation().pathname;
+
   useEffect(() => {
     const initializeSalesData = async () => {
       try {
@@ -13,5 +16,5 @@ export const useSaveData = () => {
     };
 
     initializeSalesData();
-  }, []);
+  }, [pathname]);
 };
