@@ -57,13 +57,6 @@ export const useDashboard = () => {
         total += dateTotal; // 총 매출
         dailySales[date] = dateTotal; // 날짜별 매출
 
-        // 결제 건수 계산
-        const totalQuantity = Object.values(salesData).reduce(
-          (sum, item) => sum + item.quantity,
-          0
-        );
-        totalOrderCount += totalQuantity;
-
         // 제품별 판매량 집계
         Object.values(salesData).forEach((item) => {
           if (item.name === '홍시찹쌀떡') {
@@ -110,7 +103,6 @@ export const useDashboard = () => {
 
         if (!salesByDate[date]) {
           total += transaction.totalAmount; // 총 매출 추가
-          totalOrderCount += 1; // 결제 건수 추가
 
           if (!dailySales[date]) {
             dailySales[date] = 0;
@@ -168,9 +160,14 @@ export const useDashboard = () => {
         hourlySales[hourKey] += transaction.totalAmount;
       });
 
-      // 평균 객단가 계산
+      // 2025-06-16일을 제외한 거래 건수와 매출로 평균 객단가 계산
+      const filteredTransactions = transactions.filter(
+        (transaction) => transaction.date !== '2025-06-16'
+      );
+      const filteredTotal = total - (dailySales['2025-06-16'] || 0);
+      totalOrderCount = filteredTransactions.length;
       const averageOrder =
-        totalOrderCount > 0 ? Math.round(total / totalOrderCount) : 0;
+        totalOrderCount > 0 ? Math.round(filteredTotal / totalOrderCount) : 0;
 
       // 매출이 가장 높은 날짜
       let maxDay = { date: '', amount: 0 };

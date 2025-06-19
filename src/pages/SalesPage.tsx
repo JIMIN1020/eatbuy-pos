@@ -11,7 +11,10 @@ import {
 } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
-import { getSalesByDateRange } from '../firebase/salesService';
+import {
+  getSalesByDateRange,
+  getTransactionsByDateRange,
+} from '../firebase/salesService';
 import { getToday } from '../utils/date';
 
 interface SalesItem {
@@ -88,7 +91,6 @@ function SalesPage() {
 
         // 품목별 통계를 위한 객체 (useDashboard 로직 참고)
         const statsMap: Record<string, ItemStats> = {};
-        let totalOrderCount = 0; // 총 주문 건수 추가
 
         filteredDates.forEach((date: string) => {
           const dayData = allData[date as keyof typeof allData];
@@ -100,9 +102,6 @@ function SalesPage() {
               itemMap[key].quantity += item.quantity;
               itemMap[key].amount += item.amount;
             }
-
-            // 주문 건수 계산 (각 아이템의 quantity를 주문 건수로 계산)
-            totalOrderCount += item.quantity;
 
             if (item.name === '홍시찹쌀떡') {
               if (!statsMap['홍시찹쌀떡']) {
@@ -158,8 +157,15 @@ function SalesPage() {
           (sum, item: any) => sum + item.amount,
           0
         );
+
+        // 실제 거래 건수를 가져와서 평균 객단가 계산
+        const transactions = await getTransactionsByDateRange(
+          startDate,
+          endDate
+        );
+        const transactionCount = transactions.length;
         const averageOrderValue =
-          totalOrderCount > 0 ? Math.round(totalAmount / totalOrderCount) : 0;
+          transactionCount > 0 ? Math.round(totalAmount / transactionCount) : 0;
 
         setRows(result);
         setTotal(totalAmount);
