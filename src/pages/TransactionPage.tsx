@@ -10,8 +10,11 @@ import {
 } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
-import { deleteTransaction, getTransactionsByDateRange } from '../salesService';
-import { getToday } from '../date';
+import {
+  deleteTransaction,
+  getTransactionsByDateRange,
+} from '../firebase/salesService';
+import { getToday } from '../utils/date';
 
 interface TransactionTableItem {
   key: string;
@@ -24,7 +27,7 @@ interface TransactionTableItem {
 
 const { Title } = Typography;
 
-const TransactionPage = () => {
+function TransactionPage() {
   const [date, setDate] = useState(getToday());
   const [rows, setRows] = useState<TransactionTableItem[]>([]);
   const [total, setTotal] = useState(0);
@@ -204,6 +207,6 @@ const TransactionPage = () => {
       )}
     </div>
   );
-};
+}
 
 export default TransactionPage;

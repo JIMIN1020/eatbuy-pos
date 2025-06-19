@@ -1,8 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom';
 import PosPage from '../pages/PoSPage';
-import DashboardPage from '../pages/DashboardPage';
+import SalesPage from '../pages/SalesPage';
 import TransactionPage from '../pages/TransactionPage';
 import Layout from '../components/Layout';
+import DashboardPage from '../pages/Dashboard/DashboardPage';
 
 const router = createBrowserRouter([
   {
@@ -14,12 +15,16 @@ const router = createBrowserRouter([
         element: <PosPage />,
       },
       {
-        path: '/dashboard',
-        element: <DashboardPage />,
+        path: '/sales',
+        element: <SalesPage />,
       },
       {
         path: '/transactions',
         element: <TransactionPage />,
+      },
+      {
+        path: '/dashboard',
+        element: <DashboardPage />,
       },
     ],
   },

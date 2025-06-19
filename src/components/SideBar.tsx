@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { saveSalesData } from '../salesService';
+import { saveSalesData } from '../firebase/salesService';
 import OrderItem from './OrderItem';
 import { motion } from 'framer-motion';
 

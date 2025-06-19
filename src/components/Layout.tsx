@@ -1,7 +1,10 @@
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
+import { useSaveData } from '../hooks/useSaveData';
 
 function Layout() {
+  useSaveData();
+
   return (
     <div className="app">
       <Header />
