@@ -1,5 +1,6 @@
 import { Typography, Spin } from 'antd';
 import DailySalesModal from '../dashboard/components/DailySalesModal';
+import HourlySalesModal from '../dashboard/components/HourlySalesModal';
 import StatisticsCards from '../dashboard/components/StatisticsCards';
 import {
   Chart as ChartJS,
@@ -34,8 +35,13 @@ function DashboardPage() {
     chartColor,
     chartModalVisible,
     setChartModalVisible,
+    hourlyChartModalVisible,
+    setHourlyChartModalVisible,
     salesTrendData,
     chartData,
+    hourlySalesData,
+    avgHourlySales,
+    salesDates,
   } = useDashboard();
 
   const riceCakeChartData = {
@@ -99,6 +105,7 @@ function DashboardPage() {
             bestDay={bestDay}
             bestHour={bestHour}
             setChartModalVisible={setChartModalVisible}
+            setHourlyChartModalVisible={setHourlyChartModalVisible}
           />
 
           <div className="grid grid-cols-3 gap-4">
@@ -123,6 +130,14 @@ function DashboardPage() {
             chartModalVisible={chartModalVisible}
             setChartModalVisible={setChartModalVisible}
             salesTrendData={salesTrendData}
+          />
+
+          <HourlySalesModal
+            modalVisible={hourlyChartModalVisible}
+            setModalVisible={setHourlyChartModalVisible}
+            hourlySalesData={hourlySalesData}
+            avgHourlySales={avgHourlySales}
+            dates={salesDates}
           />
         </>
       )}

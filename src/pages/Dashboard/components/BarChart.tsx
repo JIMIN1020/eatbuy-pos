@@ -69,7 +69,7 @@ function BarChart({ title, totalQuantity, data }: Props) {
     <Card bordered={false} className="mb-6">
       <div className="w-full flex justify-between items-center mb-4">
         <Typography.Title level={4}>{title}</Typography.Title>
-        <span className="text-xl font-bold border border-punta-orange rounded-[60px] px-4 py-2">
+        <span className="text-lg font-bold border border-punta-orange rounded-[60px] px-3 py-1">
           {totalQuantity.toLocaleString()}개
         </span>
       </div>

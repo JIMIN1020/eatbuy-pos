@@ -11,11 +11,19 @@ export const useDashboard = () => {
   const [averageOrderValue, setAverageOrderValue] = useState(0);
   const [bestDay, setBestDay] = useState({ date: '', amount: 0 });
   const [bestHour, setBestHour] = useState({ hour: '', amount: 0 });
+  const [hourlySalesData, setHourlySalesData] = useState<
+    Record<string, number[]>
+  >({});
+  const [avgHourlySales, setAvgHourlySales] = useState<number[]>(
+    Array(24).fill(0)
+  );
+  const [salesDates, setSalesDates] = useState<string[]>([]);
 
   // 각 제품별 차트 데이터를 위한 state 추가
   const chartColor = ['#FF6B00', '#ff6a00d3', '#ff6a008c', '#ff6a0040'];
 
   const [chartModalVisible, setChartModalVisible] = useState(false);
+  const [hourlyChartModalVisible, setHourlyChartModalVisible] = useState(false);
   const [salesTrendData, setSalesTrendData] = useState<
     { date: string; sales: number }[]
   >([]);
@@ -39,8 +47,11 @@ export const useDashboard = () => {
 
       let total = 0; // 총 매출
       const dailySales: Record<string, number> = {}; // 날짜별 매출
-      const hourlySales: Record<string, number> = {}; // 시간대별 매출
+      const dateHourlySales: Record<string, number[]> = {}; // 날짜별 시간대별 매출
+
       let totalOrderCount = 0; // 총 결제건수
+
+      const uniqueDates = new Set<string>(); // 거래가 있는 날짜들의 집합
 
       const productSales: Record<string, Record<string, number>> = {
         홍시찹쌀떡: { '총 판매량': 0, '1구': 0, '5구': 0, '10구': 0 },
@@ -56,6 +67,7 @@ export const useDashboard = () => {
         );
         total += dateTotal; // 총 매출
         dailySales[date] = dateTotal; // 날짜별 매출
+        uniqueDates.add(date);
 
         // 제품별 판매량 집계
         Object.values(salesData).forEach((item) => {
@@ -96,6 +108,7 @@ export const useDashboard = () => {
       /* ----- 금일 매출 데이터 ----- */
       transactions.forEach((transaction) => {
         const date = transaction.date;
+        uniqueDates.add(date);
 
         if (date !== getToday()) {
           return;
@@ -150,14 +163,50 @@ export const useDashboard = () => {
         }
       });
 
-      // 시간대별 매출 집계
+      // 시간대별 매출 집계 (변경된 부분)
+      // 날짜별로 각 시간대 매출을 따로 계산
       transactions.forEach((transaction) => {
+        const date = transaction.date;
         const hour = transaction.time.split(':')[0];
-        const hourKey = `${hour}시`;
-        if (!hourlySales[hourKey]) {
-          hourlySales[hourKey] = 0;
+        const hourIndex = parseInt(hour);
+
+        // 각 날짜별 시간대별 매출 (새로운 로직)
+        if (!dateHourlySales[date]) {
+          dateHourlySales[date] = Array(24).fill(0);
         }
-        hourlySales[hourKey] += transaction.totalAmount;
+        dateHourlySales[date][hourIndex] += transaction.totalAmount;
+      });
+
+      // 시간대별 평균 매출 계산 (수정된 부분)
+      // 각 시간대별로 모든 날짜의 매출을 합한 후 날짜 수로 나눔
+      const hourlyAverages = Array(24).fill(0);
+      const hourDateCounts = Array(24).fill(0);
+
+      // 각 날짜의 시간대별 매출을 합산하고, 데이터가 있는 날짜 수 계산
+      Object.entries(dateHourlySales).forEach(([, hourlyData]) => {
+        hourlyData.forEach((amount, hour) => {
+          if (amount > 0) {
+            hourlyAverages[hour] += amount;
+            hourDateCounts[hour]++;
+          }
+        });
+      });
+
+      // 각 시간대별 평균 계산
+      for (let hour = 0; hour < 24; hour++) {
+        if (hourDateCounts[hour] > 0) {
+          hourlyAverages[hour] = parseFloat(
+            (hourlyAverages[hour] / hourDateCounts[hour]).toFixed(0)
+          );
+        }
+      }
+
+      // 가장 평균 매출이 높은 시간대 찾기 (10시~21시만 고려)
+      let maxHourAvg = { hour: '', amount: 0 };
+      hourlyAverages.forEach((avgAmount, hour) => {
+        if (hour >= 10 && hour <= 21 && avgAmount > maxHourAvg.amount) {
+          maxHourAvg = { hour: `${hour}시`, amount: avgAmount };
+        }
       });
 
       // 2025-06-16일을 제외한 거래 건수와 매출로 평균 객단가 계산
@@ -174,14 +223,6 @@ export const useDashboard = () => {
       Object.entries(dailySales).forEach(([date, amount]) => {
         if (amount > maxDay.amount) {
           maxDay = { date, amount };
-        }
-      });
-
-      // 매출이 가장 높은 시간대
-      let maxHour = { hour: '', amount: 0 };
-      Object.entries(hourlySales).forEach(([hour, amount]) => {
-        if (amount > maxHour.amount) {
-          maxHour = { hour, amount };
         }
       });
 
@@ -237,8 +278,11 @@ export const useDashboard = () => {
       setTotalSales(total);
       setAverageOrderValue(averageOrder);
       setBestDay(maxDay);
-      setBestHour(maxHour);
+      setBestHour(maxHourAvg);
       setSalesTrendData(trendData);
+      setHourlySalesData(dateHourlySales);
+      setAvgHourlySales(hourlyAverages);
+      setSalesDates([...uniqueDates].sort());
 
       // 각 제품별 차트 데이터 설정
       setChartData({
@@ -271,7 +315,12 @@ export const useDashboard = () => {
     chartColor,
     chartModalVisible,
     setChartModalVisible,
+    hourlyChartModalVisible,
+    setHourlyChartModalVisible,
     salesTrendData,
     chartData,
+    hourlySalesData,
+    avgHourlySales,
+    salesDates,
   };
 };
