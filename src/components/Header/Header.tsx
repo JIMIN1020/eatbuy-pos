@@ -12,9 +12,9 @@ function Header() {
   return (
     <div
       style={{ borderBottom: '1px solid #E5E7EB' }}
-      className="w-full px-[60px] py-4 bg-white h-[70px]"
+      className="w-full px-[20px] md:px-[60px] py-4 bg-white flex items-center h-[70px]"
     >
-      <div className="mx-auto flex items-center justify-between">
+      <div className="mx-auto flex items-center justify-between w-full">
         <div className="flex items-center gap-3">
           <img src={puntaLogo} alt="punta-logo" className="w-auto h-7" />
           <h1 className="text-lg md:text-2xl font-bold text-punta-orange">

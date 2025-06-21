@@ -1,4 +1,4 @@
-import { Typography, Spin } from 'antd';
+import { Spin } from 'antd';
 import DailySalesModal from '../dashboard/components/DailySalesModal';
 import HourlySalesModal from '../dashboard/components/HourlySalesModal';
 import StatisticsCards from '../dashboard/components/StatisticsCards';
@@ -22,8 +22,6 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
-const { Title: AntTitle } = Typography;
 
 function DashboardPage() {
   const {
@@ -88,9 +86,7 @@ function DashboardPage() {
   return (
     <div className="w-full p-[40px] bg-gray-50 h-full flex-1 overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
-        <AntTitle level={2} style={{ marginBottom: 0 }}>
-          영업 분석
-        </AntTitle>
+        <h1 className="text-[24px] font-bold mb-0">영업 분석</h1>
       </div>
 
       {loading ? (
@@ -108,7 +104,7 @@ function DashboardPage() {
             setHourlyChartModalVisible={setHourlyChartModalVisible}
           />
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <BarChart
               title="홍시 찹쌀떡 판매 현황"
               totalQuantity={chartData['홍시찹쌀떡']?.totalQuantity || 0}

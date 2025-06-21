@@ -1,10 +1,9 @@
-import { DatePicker, Table, Typography, Card, Spin } from 'antd';
+import { DatePicker, Table, Card, Spin } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
 import { useSales } from '../../hooks/useSales';
 import DailyStatistics from '../sales/components/DailyStatistics';
 
-const { Title } = Typography;
 const { RangePicker } = DatePicker;
 
 function SalesPage() {
@@ -56,13 +55,11 @@ function SalesPage() {
 
   return (
     <div className="w-full p-[40px] bg-gray-50 h-full flex-1 overflow-y-auto">
-      <Title level={2} style={{ marginBottom: 24 }}>
-        매출 통계
-      </Title>
+      <h1 className="text-[24px] font-bold mb-4">매출 통계</h1>
 
       <Card style={{ marginBottom: 24 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <span className="text-xl font-bold">영업 일자</span>
+          <span className="text-lg md:text-xl font-bold">영업 일자</span>
           <RangePicker
             defaultValue={[dayjs(startDate), dayjs(endDate)]}
             onChange={handleDateRangeChange}

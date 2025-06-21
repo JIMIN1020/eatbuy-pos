@@ -1,9 +1,7 @@
-import { DatePicker, Table, Typography, Card, Spin, Button } from 'antd';
+import { DatePicker, Table, Card, Spin, Button } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
 import { useTransactions } from '../../hooks/useTransactions';
-
-const { Title } = Typography;
 
 function TransactionPage() {
   const {
@@ -73,9 +71,7 @@ function TransactionPage() {
 
   return (
     <div className="w-full p-[40px] bg-gray-50 h-full flex-1 overflow-y-auto">
-      <Title level={2} style={{ marginBottom: 24 }}>
-        거래 내역
-      </Title>
+      <h1 className="text-[24px] font-bold mb-4">거래 내역</h1>
 
       <Card style={{ marginBottom: 24 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
@@ -109,6 +105,7 @@ function TransactionPage() {
           size="large"
           bordered
           style={{ marginBottom: 24 }}
+          scroll={{ x: 800 }}
           summary={() => (
             <Table.Summary.Row>
               <Table.Summary.Cell index={0} colSpan={6} align="right">

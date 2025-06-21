@@ -1,4 +1,4 @@
-import { Card, Typography } from 'antd';
+import { Card } from 'antd';
 import { Bar } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
@@ -68,8 +68,8 @@ function BarChart({ title, totalQuantity, data }: Props) {
   return (
     <Card bordered={false} className="mb-6">
       <div className="w-full flex justify-between items-center mb-4">
-        <Typography.Title level={4}>{title}</Typography.Title>
-        <span className="text-lg font-bold border border-punta-orange rounded-[60px] px-3 py-1">
+        <h2 className="text-[16px] md:text-xl font-bold">{title}</h2>
+        <span className="text-md md:text-lg font-bold border border-punta-orange rounded-[60px] px-3 py-1">
           {totalQuantity.toLocaleString()}개
         </span>
       </div>
