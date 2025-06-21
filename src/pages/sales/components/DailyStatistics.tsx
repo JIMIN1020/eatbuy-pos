@@ -8,7 +8,7 @@ interface Props {
 function DailyStatistics({ itemStats, total }: Props) {
   return (
     <div className="flex flex-wrap gap-6 mb-6">
-      <div className="flex-1 min-w-[150px] max-w-[250px]">
+      <div className="flex-1 min-w-[150px] max-w-[350px]">
         <Card bordered={false} className="h-full">
           <Statistic
             title={<span className="text-[16px] font-bold">홍시찹쌀떡</span>}
@@ -21,7 +21,7 @@ function DailyStatistics({ itemStats, total }: Props) {
         </Card>
       </div>
 
-      <div className="flex-1 min-w-[150px] max-w-[250px]">
+      <div className="flex-1 min-w-[150px] max-w-[350px]">
         <Card bordered={false} className="h-full">
           <Statistic
             title={
@@ -36,7 +36,7 @@ function DailyStatistics({ itemStats, total }: Props) {
         </Card>
       </div>
 
-      <div className="flex-1 min-w-[150px] max-w-[250px]">
+      <div className="flex-1 min-w-[150px] max-w-[350px]">
         <Card bordered={false} className="h-full">
           <Statistic
             title={<span className="text-[16px] font-bold">홍시 식혜 1L</span>}
@@ -49,7 +49,7 @@ function DailyStatistics({ itemStats, total }: Props) {
         </Card>
       </div>
 
-      <div className="flex-1 min-w-[150px] max-w-[250px]">
+      <div className="flex-1 min-w-[150px] max-w-[350px]">
         <Card bordered={false} className="h-full">
           <Statistic
             title={<span className="text-[16px] font-bold">평균 객단가</span>}
@@ -62,7 +62,7 @@ function DailyStatistics({ itemStats, total }: Props) {
         </Card>
       </div>
 
-      <div className="flex-1 min-w-[180px] max-w-[250px]">
+      <div className="flex-1 min-w-[180px] max-w-[350px]">
         <Card bordered={false} className="h-full">
           <Statistic
             title={<span className="text-[16px] font-bold">총 매출</span>}
