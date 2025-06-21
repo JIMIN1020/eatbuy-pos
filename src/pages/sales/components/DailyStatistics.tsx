@@ -1,4 +1,4 @@
-import { Card, Statistic, Row, Col } from 'antd';
+import { Card, Statistic } from 'antd';
 
 interface Props {
   itemStats: Record<string, SalesItemStats>;
@@ -7,8 +7,8 @@ interface Props {
 
 function DailyStatistics({ itemStats, total }: Props) {
   return (
-    <Row gutter={[24, 24]} className="mb-6">
-      <Col xs={24} sm={12} xl={4.8}>
+    <div className="flex flex-wrap gap-6 mb-6">
+      <div className="flex-1 min-w-[250px] max-w-[350px]">
         <Card bordered={false} className="h-full">
           <Statistic
             title={<span className="text-[16px] font-bold">홍시찹쌀떡</span>}
@@ -19,8 +19,9 @@ function DailyStatistics({ itemStats, total }: Props) {
             formatter={(value) => `${value.toLocaleString()}`}
           />
         </Card>
-      </Col>
-      <Col xs={24} sm={12} xl={4.8}>
+      </div>
+
+      <div className="flex-1 min-w-[250px] max-w-[350px]">
         <Card bordered={false} className="h-full">
           <Statistic
             title={
@@ -33,8 +34,9 @@ function DailyStatistics({ itemStats, total }: Props) {
             formatter={(value) => `${value.toLocaleString()}`}
           />
         </Card>
-      </Col>
-      <Col xs={24} sm={12} xl={4.8}>
+      </div>
+
+      <div className="flex-1 min-w-[250px] max-w-[350px]">
         <Card bordered={false} className="h-full">
           <Statistic
             title={<span className="text-[16px] font-bold">홍시 식혜 1L</span>}
@@ -45,8 +47,9 @@ function DailyStatistics({ itemStats, total }: Props) {
             formatter={(value) => `${value.toLocaleString()}`}
           />
         </Card>
-      </Col>
-      <Col xs={24} sm={12} xl={4.8}>
+      </div>
+
+      <div className="flex-1 min-w-[250px] max-w-[350px]">
         <Card bordered={false} className="h-full">
           <Statistic
             title={<span className="text-[16px] font-bold">평균 객단가</span>}
@@ -57,8 +60,9 @@ function DailyStatistics({ itemStats, total }: Props) {
             formatter={(value) => `${value.toLocaleString()}`}
           />
         </Card>
-      </Col>
-      <Col xs={24} sm={12} xl={4.8}>
+      </div>
+
+      <div className="flex-1 min-w-[250px] max-w-[350px]">
         <Card bordered={false} className="h-full">
           <Statistic
             title={<span className="text-[16px] font-bold">총 매출</span>}
@@ -69,8 +73,8 @@ function DailyStatistics({ itemStats, total }: Props) {
             formatter={(value) => `${value.toLocaleString()}`}
           />
         </Card>
-      </Col>
-    </Row>
+      </div>
+    </div>
   );
 }
 

@@ -1,10 +1,8 @@
-// src/pages/dashboard/components/StatisticsCards.tsx
 import { Card, Col, Row, Statistic, Typography } from 'antd';
 import { LineChartOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 
-// dayjs 한국어 설정
 dayjs.locale('ko');
 
 interface Props {
