@@ -67,9 +67,9 @@ function BarChart({ title, totalQuantity, data }: Props) {
 
   return (
     <Card bordered={false} className="mb-6">
-      <div className="w-full flex justify-between items-center mb-4">
-        <h2 className="text-[16px] md:text-xl font-bold">{title}</h2>
-        <span className="text-md md:text-lg font-bold border border-punta-orange rounded-[60px] px-3 py-1">
+      <div className="w-full flex justify-between items-center mb-4 gap-2">
+        <h2 className="text-[16px] lg:text-lg xl:text-xl font-bold">{title}</h2>
+        <span className="text-md lg:text-base xl:text-lg w-max shrink-0 font-bold border border-punta-orange rounded-[60px] px-3 py-1">
           {totalQuantity.toLocaleString()}개
         </span>
       </div>
