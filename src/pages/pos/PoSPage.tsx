@@ -1,26 +1,13 @@
 import { useState } from 'react';
-import ItemList from '../components/ItemList';
-import { ITEM_LIST_1, ITEM_LIST_2 } from '../constants/price';
-import SideBar from '../components/SideBar';
-import { getToday } from '../utils/date';
-
-interface OrderItem {
-  id: number;
-  name: string;
-  option: string;
-  price: number;
-  quantity: number;
-}
+import ItemList from '../../components/ItemList';
+import { ITEM_LIST_1, ITEM_LIST_2 } from '../../constants/price';
+import SideBar from '../../components/SideBar';
+import { getToday } from '../../utils/date';
 
 function PoSPage() {
-  const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
+  const [orderItems, setOrderItems] = useState<ReadyToOrderItem[]>([]);
 
-  const handleAddItem = (item: {
-    id: number;
-    name: string;
-    option: string;
-    price: number;
-  }) => {
+  const handleAddItem = (item: Item) => {
     setOrderItems((prev) => {
       const existingItem = prev.find((orderItem) => orderItem.id === item.id);
       if (existingItem) {

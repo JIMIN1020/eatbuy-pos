@@ -12,31 +12,10 @@ import {
 import { db } from './config';
 import { getToday } from '../utils/date';
 
-export interface SalesItem {
-  name: string;
-  option: string;
-  quantity: number;
-  amount: number;
-}
-
-export interface OrderItem {
-  id: number;
-  name: string;
-  option: string;
-  price: number;
-  quantity: number;
-}
-
-export interface Transaction {
-  id: string;
-  date: string;
-  time: string;
-  items: OrderItem[];
-  totalAmount: number;
-  timestamp: number;
-}
-
-export const saveSalesData = async (orderItems: OrderItem[]): Promise<void> => {
+/** ----- 개별 결제 건 저장 핸들러 ----- */
+export const saveSalesData = async (
+  orderItems: ReadyToOrderItem[]
+): Promise<void> => {
   if (orderItems.length === 0) return;
 
   const today = getToday();
@@ -67,6 +46,7 @@ export const saveSalesData = async (orderItems: OrderItem[]): Promise<void> => {
   }
 };
 
+/** ----- 날짜별 매출 조회 핸들러 ----- */
 export const getSalesByDateRange = async (
   startDate: string,
   endDate: string
@@ -89,8 +69,8 @@ export const getSalesByDateRange = async (
 
     const isTodayInRange = startDate <= today && today <= endDate;
 
+    // 오늘 날짜의 데이터는 transactions에서 가져와서 계산
     if (isTodayInRange) {
-      // 오늘 날짜의 데이터는 transactions에서 가져와서 계산
       const transactionsCollection = collection(db, 'transactions');
       const transactionsQuery = query(
         transactionsCollection,
@@ -131,6 +111,7 @@ export const getSalesByDateRange = async (
   }
 };
 
+/** ----- 날짜별 거래 내역 조회 핸들러 ----- */
 export const getTransactionsByDateRange = async (
   startDate: string,
   endDate: string
@@ -154,6 +135,7 @@ export const getTransactionsByDateRange = async (
   return results.sort((a, b) => b.timestamp - a.timestamp);
 };
 
+/** ----- 거래 내역 삭제 핸들러 ----- */
 export const deleteTransaction = async (
   transactionId: string
 ): Promise<void> => {
@@ -161,6 +143,7 @@ export const deleteTransaction = async (
   await deleteDoc(transactionRef);
 };
 
+/** ----- 모든 거래 내역 조회 핸들러 ----- */
 export const getAllTransactions = async (): Promise<Transaction[]> => {
   const transactionsCollection = collection(db, 'transactions');
   const results: Transaction[] = [];
@@ -175,6 +158,7 @@ export const getAllTransactions = async (): Promise<Transaction[]> => {
   return results.sort((a, b) => b.timestamp - a.timestamp);
 };
 
+/** ----- 모든 매출 데이터 조회 핸들러 ----- */
 export const getAllSalesData = async (): Promise<SalesItem[]> => {
   const salesCollection = collection(db, 'sales');
   const querySnapshot = await getDocs(salesCollection);
@@ -190,7 +174,7 @@ export const getAllSalesData = async (): Promise<SalesItem[]> => {
   return allSalesItems;
 };
 
-// 특정 날짜의 sales 데이터가 존재하는지 확인하는 함수
+/** ----- 특정 날짜의 sales 데이터가 존재하는지 확인하는 핸들러 ----- */
 export const checkSalesDataExists = async (date: string): Promise<boolean> => {
   try {
     const salesDoc = doc(db, 'sales', date);
@@ -202,7 +186,7 @@ export const checkSalesDataExists = async (date: string): Promise<boolean> => {
   }
 };
 
-// transactions에서 특정 날짜의 데이터를 계산해서 sales에 저장하는 함수
+/** ----- transactions에서 특정 날짜의 데이터를 계산해서 sales에 저장하는 핸들러 ----- */
 export const calculateAndSaveSalesData = async (
   date: string
 ): Promise<void> => {
@@ -243,7 +227,7 @@ export const calculateAndSaveSalesData = async (
   }
 };
 
-// 오늘 이전의 모든 날짜에 대해 sales 데이터가 없으면 계산해서 저장하는 함수
+/** ----- 오늘 이전의 모든 날짜에 대해 sales 데이터가 없으면 계산해서 저장하는 핸들러 ----- */
 export const ensureSalesDataExists = async (): Promise<void> => {
   try {
     const today = getToday();
@@ -269,7 +253,7 @@ export const ensureSalesDataExists = async (): Promise<void> => {
   }
 };
 
-// 모든 sales 데이터를 날짜별로 가져오는 함수
+/** ----- 모든 sales 데이터를 날짜별로 가져오는 핸들러 ----- */
 export const getAllSalesDataByDate = async (): Promise<
   Record<string, Record<string, SalesItem>>
 > => {

@@ -66,6 +66,9 @@ function DailySalesModal({
         },
       },
     },
+    interaction: {
+      intersect: false,
+    },
     scales: {
       y: {
         beginAtZero: true,

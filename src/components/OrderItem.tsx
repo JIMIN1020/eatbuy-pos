@@ -1,11 +1,5 @@
 interface Props {
-  item: {
-    id: number;
-    name: string;
-    option: string;
-    price: number;
-    quantity: number;
-  };
+  item: ReadyToOrderItem;
   onDelete: () => void;
   onUpdateQuantity: (quantity: number) => void;
 }

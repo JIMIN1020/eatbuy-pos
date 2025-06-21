@@ -2,18 +2,8 @@ import { motion } from 'framer-motion';
 
 interface Props {
   title: string;
-  items: {
-    id: number;
-    name: string;
-    option: string;
-    price: number;
-  }[];
-  onItemClick: (item: {
-    id: number;
-    name: string;
-    option: string;
-    price: number;
-  }) => void;
+  items: Item[];
+  onItemClick: (item: Item) => void;
 }
 
 function ItemList({ title, items, onItemClick }: Props) {

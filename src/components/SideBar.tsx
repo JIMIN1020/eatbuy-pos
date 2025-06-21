@@ -3,17 +3,9 @@ import { saveSalesData } from '../firebase/salesService';
 import OrderItem from './OrderItem';
 import { motion } from 'framer-motion';
 
-interface OrderItemType {
-  id: number;
-  name: string;
-  option: string;
-  price: number;
-  quantity: number;
-}
-
 interface Props {
-  orderItems: OrderItemType[];
-  setOrderItems: React.Dispatch<React.SetStateAction<OrderItemType[]>>;
+  orderItems: ReadyToOrderItem[];
+  setOrderItems: React.Dispatch<React.SetStateAction<ReadyToOrderItem[]>>;
 }
 
 function SideBar({ orderItems, setOrderItems }: Props) {

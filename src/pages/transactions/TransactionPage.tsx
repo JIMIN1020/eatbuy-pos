@@ -1,38 +1,21 @@
-import { useEffect, useState } from 'react';
-import {
-  DatePicker,
-  Table,
-  Typography,
-  Card,
-  Spin,
-  message,
-  Button,
-} from 'antd';
+import { DatePicker, Table, Typography, Card, Spin, Button } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
-import {
-  deleteTransaction,
-  getTransactionsByDateRange,
-} from '../firebase/salesService';
-import { getToday } from '../utils/date';
-
-interface TransactionTableItem {
-  key: string;
-  id: string;
-  time: string;
-  items: string;
-  quantity: number;
-  amount: number;
-}
+import { useTransactions } from '../../hooks/useTransactions';
 
 const { Title } = Typography;
 
 function TransactionPage() {
-  const [date, setDate] = useState(getToday());
-  const [rows, setRows] = useState<TransactionTableItem[]>([]);
-  const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  const {
+    date,
+    rows,
+    total,
+    loading,
+    currentPage,
+    handleCancelTransaction,
+    handleDateChange,
+    setCurrentPage,
+  } = useTransactions();
 
   const columns: ColumnsType<TransactionTableItem> = [
     {
@@ -87,66 +70,6 @@ function TransactionPage() {
       ),
     },
   ];
-
-  const handleCancelTransaction = async (
-    transactionId: string,
-    amount: number
-  ) => {
-    try {
-      await deleteTransaction(transactionId);
-
-      setRows((prev) => prev.filter((row) => row.id !== transactionId));
-      setTotal(total - amount);
-      message.success('결제가 취소되었습니다.');
-    } catch (error) {
-      console.error('결제 취소 중 오류 발생:', error);
-      message.error('결제 취소 중 오류가 발생했습니다.');
-    }
-  };
-
-  useEffect(() => {
-    const fetchSalesData = async () => {
-      setLoading(true);
-      try {
-        const transactions = await getTransactionsByDateRange(date, date);
-
-        const result = transactions.map((transaction, index) => {
-          const itemsText = transaction.items
-            .map((item) => `${item.name} ${item.option} × ${item.quantity}`)
-            .join('\n');
-
-          const totalQuantity = transaction.items.reduce(
-            (sum, item) => sum + item.quantity,
-            0
-          );
-
-          return {
-            key: String(index),
-            id: transaction.id,
-            time: transaction.time,
-            items: itemsText,
-            quantity: totalQuantity,
-            amount: transaction.totalAmount,
-          };
-        });
-
-        setRows(result);
-        setTotal(result.reduce((sum, item) => sum + item.amount, 0));
-      } catch (error) {
-        console.error('데이터 조회 중 오류 발생:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchSalesData();
-  }, [date]);
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleDateChange = (date: any) => {
-    if (date) {
-      setDate(date.format('YYYY-MM-DD'));
-    }
-  };
 
   return (
     <div className="w-full p-[40px] bg-gray-50 h-full flex-1 overflow-y-auto">

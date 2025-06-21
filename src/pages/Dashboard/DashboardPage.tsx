@@ -1,6 +1,6 @@
 import { Typography, Spin } from 'antd';
-import DailySalesModal from './components/DailySalesModal';
-import StatisticsCards from './components/StatisticsCards';
+import DailySalesModal from '../dashboard/components/DailySalesModal';
+import StatisticsCards from '../dashboard/components/StatisticsCards';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,7 +10,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import BarChart from './components/BarChart';
+import BarChart from '../dashboard/components/BarChart';
 import { useDashboard } from '../../hooks/useDashboard';
 
 ChartJS.register(

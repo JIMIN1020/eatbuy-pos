@@ -1,9 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom';
-import PosPage from '../pages/PoSPage';
-import SalesPage from '../pages/SalesPage';
-import TransactionPage from '../pages/TransactionPage';
-import Layout from '../components/Layout';
-import DashboardPage from '../pages/Dashboard/DashboardPage';
+import PosPage from '../pages/pos/PoSPage';
+import SalesPage from '../pages/sales/SalesPage';
+import TransactionPage from '../pages/transactions/TransactionPage';
+import Layout from '../layouts/Layout';
+import DashboardPage from '../pages/dashboard/DashboardPage';
 
 const router = createBrowserRouter([
   {

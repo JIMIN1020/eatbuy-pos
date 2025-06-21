@@ -11,6 +11,9 @@ function BarChart({ title, totalQuantity, data }: Props) {
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
+    interaction: {
+      intersect: false,
+    },
     plugins: {
       legend: {
         display: false,
@@ -23,7 +26,7 @@ function BarChart({ title, totalQuantity, data }: Props) {
         color: '#2d2d2d',
         anchor: 'end' as const,
         align: 'top' as const,
-        offset: 4,
+        offset: -5,
         font: {
           weight: 'bold' as const,
           size: 16,
