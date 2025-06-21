@@ -36,7 +36,11 @@ function BarChart({ title, totalQuantity, data }: Props) {
         },
       },
     },
-
+    elements: {
+      bar: {
+        borderRadius: 8,
+      },
+    },
     barThickness: 50,
     scales: {
       y: {
@@ -49,6 +53,9 @@ function BarChart({ title, totalQuantity, data }: Props) {
         },
         grid: {
           display: false,
+        },
+        afterFit: (axis: any) => {
+          axis.paddingTop = 20;
         },
       },
       x: {
